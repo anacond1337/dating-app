@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Container } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
-import { Fab, Typography } from "@mui/material";
+import { Fab, Typography, CircularProgress } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClearIcon from "@mui/icons-material/Clear";
+import SignalWifiBadIcon from "@mui/icons-material/SignalWifiBad";
 
 async function fetchPerson() {
 	const res = await fetch("https://randomuser.me/api/");
@@ -33,13 +34,36 @@ function App() {
 		refetch();
 	}
 
-	console.log(data);
 	if (isLoading) {
-		return <h1>Your page is loading...</h1>;
+		return (
+			<Container
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					height: "90vh",
+					flexDirection: "column",
+				}}>
+				<CircularProgress />
+				<Typography>Loading...</Typography>
+			</Container>
+		);
 	}
 
 	if (isError) {
-		return <h1>Error</h1>;
+		return (
+			<Container
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					height: "90vh",
+					flexDirection: "column",
+				}}>
+				<SignalWifiBadIcon />
+				<Typography color="error">Failed to load the page!</Typography>
+			</Container>
+		);
 	}
 
 	const person = data.results[0];
