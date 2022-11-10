@@ -5,7 +5,13 @@ import App from "./App";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+});
 
 const darkTheme = createTheme({
 	palette: {
