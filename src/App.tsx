@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
 import { Fab, Typography, CircularProgress } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClearIcon from "@mui/icons-material/Clear";
 import SignalWifiBadIcon from "@mui/icons-material/SignalWifiBad";
+import Confetti from "react-confetti";
 
 async function fetchPerson() {
 	const res = await fetch("https://randomuser.me/api/");
@@ -19,12 +20,20 @@ function App() {
 	const [rejectCounter, setRejectCounter] = useState(0);
 	const [likesCounter, setLikesCounter] = useState(0);
 	const [matchCounter, setMatchCounter] = useState(0);
+	const [itsAMatch, setItsAMatch] = useState(false);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setItsAMatch(false);
+		}, 2500);
+	}, [matchCounter]);
 
 	function handleLikes() {
 		setLikesCounter(likesCounter + 1);
 		let rolledNumber = Math.floor(Math.random() * 100) + 1;
-		if (rolledNumber >= 40) {
+		if (rolledNumber <= 40) {
 			setMatchCounter(matchCounter + 1);
+			setItsAMatch(true);
 		}
 		refetch();
 	}
@@ -62,6 +71,25 @@ function App() {
 				}}>
 				<SignalWifiBadIcon />
 				<Typography color="error">Failed to load the page!</Typography>
+			</Container>
+		);
+	}
+
+	if (itsAMatch) {
+		return (
+			<Container
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					height: "90vh",
+				}}>
+				<Confetti />
+				<Typography
+					color="error"
+					sx={{ fontSize: "30px", fontFamily: "cursive" }}>
+					ITS A MATCH!!!
+				</Typography>
 			</Container>
 		);
 	}
