@@ -22,6 +22,7 @@ function App() {
 	const [matchCounter, setMatchCounter] = useState(0);
 	const [itsAMatch, setItsAMatch] = useState(false);
 
+  /* The visual effect lasts 2,5 sec after a match. */
 	useEffect(() => {
 		setTimeout(() => {
 			setItsAMatch(false);
@@ -29,7 +30,8 @@ function App() {
 	}, [matchCounter]);
 
 	function handleLikes() {
-		setLikesCounter(likesCounter + 1);
+    setLikesCounter(likesCounter + 1);
+    /* Setting the match chance to 40%. */
 		let rolledNumber = Math.floor(Math.random() * 100) + 1;
 		if (rolledNumber <= 40) {
 			setMatchCounter(matchCounter + 1);
@@ -43,6 +45,7 @@ function App() {
 		refetch();
 	}
 
+  /* Loading handling. */
 	if (isLoading) {
 		return (
 			<Container
@@ -59,6 +62,7 @@ function App() {
 		);
 	}
 
+  /* Error handling. */
 	if (isError) {
 		return (
 			<Container
@@ -75,6 +79,7 @@ function App() {
 		);
 	}
 
+  /* Confetti effect on match. */
 	if (itsAMatch) {
 		return (
 			<Container
@@ -106,11 +111,14 @@ function App() {
 				flexDirection: "column",
 				gap: "1rem",
 			}}>
+        {/* Person name */}
 			<Typography
 				sx={{
 					fontSize: "30px",
 				}}>{`${person.name.first} ${person.name.last}`}</Typography>
+        {/* Person picture */}
 			<img src={person.picture.large} />
+        {/* Person location */}
 			<Typography>{`${person.location.city}, ${person.location.country}`}</Typography>
 			<Container
 				sx={{
@@ -126,6 +134,7 @@ function App() {
 					<FavoriteIcon />
 				</Fab>
 			</Container>
+      {/* Counter container */}
 			<Container
 				sx={{
 					display: "flex",
